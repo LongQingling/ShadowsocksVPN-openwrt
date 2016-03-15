@@ -96,21 +96,18 @@ endef
 
 define Package/shadowsocks-libev-gfwlist/postrm
 #!/bin/sh
-sed -i".bak" '/ipset -N gfwlist iphash/d' /etc/firewall.user
-sed -i".bak" '/iptables -t nat -A PREROUTING -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080/d' /etc/firewall.user
-sed -i".bak" '/iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080/d' /etc/firewall.user
-rm -rf /etc/firewall.user.bak
+sed -i '/ipset -N gfwlist iphash/d' /etc/firewall.user
+sed -i '/iptables -t nat -A PREROUTING -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080/d' /etc/firewall.user
+sed -i '/iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080/d' /etc/firewall.user
 ipset destroy gfwlist
 
-sed -i".bak" '/cache-size=5000/d' /etc/dnsmasq.conf
-sed -i".bak" '/min-cache-ttl=1800/d' /etc/dnsmasq.conf
-sed -i".bak" '/conf-dir=\/etc\/dnsmasq.d/d' /etc/dnsmasq.conf
-rm -rf /etc/dnsmasq.conf.bak
+sed -i '/cache-size=5000/d' /etc/dnsmasq.conf
+sed -i '/min-cache-ttl=1800/d' /etc/dnsmasq.conf
+sed -i '/conf-dir=\/etc\/dnsmasq.d/d' /etc/dnsmasq.conf
 rm -rf /etc/dnsmasq.d
 /etc/init.d/dnsmasq restart
 
-sed -i".bak" '/shadowsocks_watchdog.log/d' /etc/crontabs/root
-rm -rf /etc/crontabs/root.bak
+sed -i '/shadowsocks_watchdog.log/d' /etc/crontabs/root
 /etc/init.d/cron restart
 
 exit 0

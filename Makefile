@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowsocks-libev
 PKG_VERSION:=2.4.5
-PKG_RELEASE:=4
+PKG_RELEASE:=5
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/shadowsocks/openwrt-shadowsocks/releases/download/v$(PKG_VERSION)
@@ -70,42 +70,44 @@ endef
 
 Package/shadowsocks-libev-server-polarssl/conffiles = $(Package/shadowsocks-libev-server/conffiles)
 
-define Package/shadowsocks-libev-gfwlist/postinst
+define Package/shadowsocks-libev-gfwlist/preinst
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
+if [ ! -f /etc/dnsmasq.d/custom_list.conf ]; then
 	echo "ipset -N gfwlist iphash" >> /etc/firewall.user
 	echo "iptables -t nat -A PREROUTING -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080" >> /etc/firewall.user
 	echo "iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080" >> /etc/firewall.user
-	ipset -N gfwlist iphash
-	iptables -t nat -A PREROUTING -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080
-	iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080
 	
 	echo "cache-size=5000" >> /etc/dnsmasq.conf
 	echo "min-cache-ttl=1800" >> /etc/dnsmasq.conf
 	echo "conf-dir=/etc/dnsmasq.d" >> /etc/dnsmasq.conf
-	/etc/init.d/dnsmasq restart
 	
 	echo "*/10 * * * * /root/ss-watchdog >> /var/log/shadowsocks_watchdog.log 2>&1" >> /etc/crontabs/root
 	echo "0 1 * * 0 echo \"\" > /var/log/shadowsocks_watchdog.log" >> /etc/crontabs/root
-	/etc/init.d/cron restart
-	
-	/etc/init.d/shadowsocks restart
 fi
 exit 0
 endef
 
-define Package/shadowsocks-libev-gfwlist/postrm
+define Package/shadowsocks-libev-gfwlist/postinst
 #!/bin/sh
-sed -i '/ipset -N gfwlist iphash/d' /etc/firewall.user
-sed -i '/iptables -t nat -A PREROUTING -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080/d' /etc/firewall.user
-sed -i '/iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080/d' /etc/firewall.user
-ipset destroy gfwlist
+/etc/init.d/firewall restart
+/etc/init.d/dnsmasq restart
+/etc/init.d/cron restart
+/etc/init.d/shadowsocks restart
+exit 0
+endef
 
+define Package/shadowsocks-libev-gfwlist/prerm
+#!/bin/sh
 sed -i '/cache-size=5000/d' /etc/dnsmasq.conf
 sed -i '/min-cache-ttl=1800/d' /etc/dnsmasq.conf
 sed -i '/conf-dir=\/etc\/dnsmasq.d/d' /etc/dnsmasq.conf
 rm -rf /etc/dnsmasq.d
 /etc/init.d/dnsmasq restart
+
+sed -i '/ipset -N gfwlist iphash/d' /etc/firewall.user
+sed -i '/iptables -t nat -A PREROUTING -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080/d' /etc/firewall.user
+sed -i '/iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080/d' /etc/firewall.user
+ipset flush gfwlist
 
 sed -i '/shadowsocks_watchdog.log/d' /etc/crontabs/root
 /etc/init.d/cron restart
@@ -113,8 +115,9 @@ sed -i '/shadowsocks_watchdog.log/d' /etc/crontabs/root
 exit 0
 endef
 
+Package/shadowsocks-libev-gfwlist-polarssl/preinst = $(Package/shadowsocks-libev-gfwlist/preinst)
 Package/shadowsocks-libev-gfwlist-polarssl/postinst = $(Package/shadowsocks-libev-gfwlist/postinst)
-Package/shadowsocks-libev-gfwlist-polarssl/postrm = $(Package/shadowsocks-libev-gfwlist/postrm)
+Package/shadowsocks-libev-gfwlist-polarssl/prerm = $(Package/shadowsocks-libev-gfwlist/prerm)
 
 CONFIGURE_ARGS += --disable-ssp
 

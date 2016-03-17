@@ -174,7 +174,7 @@ define Package/shadowsocks-libev-4M/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-{redir,tunnel} $(1)/usr/bin
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_CONF) ./files/shadowsocks.json $(1)/etc/shadowsocks.json
-	$(INSTALL_BIN) ./files/shadowsocks $(1)/etc/init.d/shadowsocks
+	$(INSTALL_BIN) ./files/shadowsocks-4M $(1)/etc/init.d/shadowsocks
 	$(INSTALL_DIR) $(1)/etc/dnsmasq.d
 	$(INSTALL_CONF) ./files/dnsmasq_list.conf $(1)/etc/dnsmasq.d/dnsmasq_list.conf
 	$(INSTALL_CONF) ./files/custom_list.conf $(1)/etc/dnsmasq.d/custom_list.conf

@@ -1,14 +1,14 @@
 Shadowsocks-libev-full for OpenWrt   
 ===
 
-简介
+简介  
 ---
 
  本项目是 [shadowsocks-libev][1] 在 OpenWrt 上的完整移植，包括服务器端和客户端。   
  当前版本: 2.4.5-4  
  [预编译 OpenWrt Chaos Calmer 15.05 ipk 下载][R]
 
-特性
+特性  
 ---
 
 可编译 两种客户端版本 和 一种服务器端版本。
@@ -50,7 +50,7 @@ Shadowsocks-libev-full for OpenWrt
    > 默认启动:  
    > `ss-server` 提供 shadowsocks 服务  
 
-编译
+编译  
 ---
 
  - 从 OpenWrt 的 [SDK][S] 编译
@@ -68,7 +68,7 @@ Shadowsocks-libev-full for OpenWrt
    make package/shadowsocks-libev-full/compile V=s
    ```
 
-配置
+配置  
 ---
 
  - shadowsocks-libev 配置文件: `/etc/shadowsocks.json`
@@ -76,6 +76,14 @@ Shadowsocks-libev-full for OpenWrt
  - shadowsocks-libev-gfwlist 配置文件: `/etc/shadowsocks.json`
 
  - shadowsocks-libev-server 配置文件: `/etc/shadowsocks-server.json`
+
+截图  
+---
+
+![luci000](https://github.com/bettermanbao/openwrt-shadowsocksR-libev-full/blob/master/snapshot/luci%20000.jpg)
+![luci001](https://github.com/bettermanbao/openwrt-shadowsocksR-libev-full/blob/master/snapshot/luci%20001.jpg)
+![luci002](https://github.com/bettermanbao/openwrt-shadowsocksR-libev-full/blob/master/snapshot/luci%20002.jpg)
+![luci003](https://github.com/bettermanbao/openwrt-shadowsocksR-libev-full/blob/master/snapshot/luci%20003.jpg)
 
 ----------
 

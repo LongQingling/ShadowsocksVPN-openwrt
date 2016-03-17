@@ -169,7 +169,7 @@ endef
 Package/shadowsocks-libev-polarssl/install = $(Package/shadowsocks-libev/install)
 Package/shadowsocks-libev-gfwlist-polarssl/install = $(Package/shadowsocks-libev-gfwlist/install)
 
-define Package/shadowsocks-libev-4M/install
+define Package/shadowsocks-libev-gfwlist-4M/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-{redir,tunnel} $(1)/usr/bin
 	$(INSTALL_DIR) $(1)/etc/init.d

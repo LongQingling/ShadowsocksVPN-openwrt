@@ -7,7 +7,7 @@ function index()
 
 	entry({"admin", "services", "shadowsocks-libev"},
 		alias("admin", "services", "shadowsocks-libev", "tcp"),
-		_("Shadowsocks"), 10)
+		_("ShadowsocksVPN"), 10)
 
 	entry({"admin", "services", "shadowsocks-libev", "tcp"},
 		cbi("shadowsocks-libev/shadowsocks-libev-tcp"),

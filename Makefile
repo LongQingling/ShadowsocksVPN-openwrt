@@ -37,16 +37,16 @@ define Package/shadowsocks-libev/Default
 	DEPENDS:=$(3)
 endef
 
-Package/shadowsocks-libev-gfwlist = $(call Package/shadowsocks-libev/Default,openssl,(OpenSSL), +libopenssl +libpcre +libpthread +dnsmasq-full +ipset +iptables +wget)
+Package/ShadowsocksVPN = $(call Package/shadowsocks-libev/Default,openssl,(OpenSSL), +libopenssl +libpcre +libpthread +dnsmasq-full +ipset +iptables +wget)
 
 define Package/shadowsocks-libev/description
 Shadowsocks-libev is a lightweight secured socks5 proxy for embedded devices and low end boxes.
 endef
 
-Package/shadowsocks-libev-gfwlist/description = $(Package/shadowsocks-libev/description)
+Package/ShadowsocksVPN/description = $(Package/shadowsocks-libev/description)
 
 
-define Package/shadowsocks-libev-gfwlist/conffiles
+define Package/ShadowsocksVPN/conffiles
 /etc/shadowsocks/tcp.json
 /etc/shadowsocks/udp.json
 /etc/shadowsocks/dns.json
@@ -54,7 +54,7 @@ define Package/shadowsocks-libev-gfwlist/conffiles
 /etc/shadowsocks/shadowsocks_custom.conf
 endef
 
-define Package/shadowsocks-libev-gfwlist/preinst
+define Package/ShadowsocksVPN/preinst
 #!/bin/sh
 if [ ! -f /etc/shadowsocks/tcp.json ]; then
 	
@@ -65,10 +65,10 @@ fi
 exit 0
 endef
 
-define Package/shadowsocks-libev-gfwlist/postinst
+define Package/ShadowsocksVPN/postinst
 endef
 
-define Package/shadowsocks-libev-gfwlist/postrm
+define Package/ShadowsocksVPN/postrm
 #!/bin/sh
 sed -i '/cache-size=5000/d' /etc/dnsmasq.conf
 sed -i '/min-cache-ttl=1800/d' /etc/dnsmasq.conf
@@ -86,7 +86,7 @@ ifeq ($(BUILD_VARIANT),polarssl)
 	CONFIGURE_ARGS += --with-crypto-library=polarssl
 endif
 
-define Package/shadowsocks-libev-gfwlist/install
+define Package/ShadowsocksVPN/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-{local,redir,tunnel} $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-redir $(1)/usr/bin/ss-redir-tcp
@@ -112,4 +112,4 @@ define Package/shadowsocks-libev-gfwlist/install
 	$(INSTALL_CONF) ./files/watchdog.htm $(1)/usr/lib/lua/luci/view/shadowsocks-libev/watchdog.htm
 endef
 
-$(eval $(call BuildPackage,shadowsocks-libev-gfwlist))
+$(eval $(call BuildPackage,ShadowsocksVPN))

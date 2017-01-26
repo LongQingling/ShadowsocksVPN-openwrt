@@ -12,23 +12,27 @@ function index()
 	entry({"admin", "services", "shadowsocks-libev", "tcp"},
 		cbi("shadowsocks-libev/shadowsocks-libev-tcp"),
 		_("TCP"), 10).leaf = true
+		
+	entry({"admin", "services", "shadowsocks-libev", "udp"},
+		cbi("shadowsocks-libev/shadowsocks-libev-udp"),
+		_("UDP"), 20).leaf = true		
 
 	entry({"admin", "services", "shadowsocks-libev", "gfwlist"},
 		call("action_gfwlist"),
-		_("GFW List"), 20).leaf = true
+		_("GFW List"), 30).leaf = true
 
 	entry({"admin", "services", "shadowsocks-libev", "custom"},
 		cbi("shadowsocks-libev/shadowsocks-libev-custom"),
-		_("Custom List"), 30).leaf = true
+		_("Custom List"), 40).leaf = true
 
 	entry({"admin", "services", "shadowsocks-libev", "watchdog"},
 		call("action_watchdog"),
-		_("Watchdog Log"), 40).leaf = true
+		_("Watchdog Log"), 50).leaf = true
 end
 
 function action_gfwlist()
 	local fs = require "nixio.fs"
-	local conffile = "/etc/dnsmasq.d/dnsmasq_list.conf" 
+	local conffile = "/etc/shadowsocks/shadowsocks_gfwlist.conf" 
 	local gfwlist = fs.readfile(conffile) or ""
 	luci.template.render("shadowsocks-libev/gfwlist", {gfwlist=gfwlist})
 end

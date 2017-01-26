@@ -56,23 +56,16 @@ endef
 
 define Package/shadowsocks-libev-gfwlist/preinst
 #!/bin/sh
-if [ ! -f /etc/dnsmasq.d/custom_list.conf ]; then
+if [ ! -f /etc/shadowsocks/tcp.json ]; then
 	
 	echo "cache-size=5000" >> /etc/dnsmasq.conf
 	echo "min-cache-ttl=1800" >> /etc/dnsmasq.conf
 		
-	echo "*/10 * * * * /etc/shadowsocks/ss-watchdog >> /var/log/shadowsocks_watchdog.log 2>&1" >> /etc/crontabs/root
-	echo "0 1 * * 0 echo \"\" > /var/log/shadowsocks_watchdog.log" >> /etc/crontabs/root
 fi
 exit 0
 endef
 
 define Package/shadowsocks-libev-gfwlist/postinst
-#!/bin/sh
-/etc/init.d/dnsmasq restart
-/etc/init.d/cron restart
-/etc/init.d/shadowsocks restart
-exit 0
 endef
 
 define Package/shadowsocks-libev-gfwlist/postrm
@@ -112,6 +105,7 @@ define Package/shadowsocks-libev-gfwlist/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev
 	$(INSTALL_CONF) ./files/shadowsocks-libev-tcp.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-tcp.lua
 	$(INSTALL_CONF) ./files/shadowsocks-libev-udp.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-udp.lua
+	$(INSTALL_CONF) ./files/shadowsocks-libev-dns.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-dns.lua
 	$(INSTALL_CONF) ./files/shadowsocks-libev-custom.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-custom.lua
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/shadowsocks-libev
 	$(INSTALL_CONF) ./files/gfwlist.htm $(1)/usr/lib/lua/luci/view/shadowsocks-libev/gfwlist.htm

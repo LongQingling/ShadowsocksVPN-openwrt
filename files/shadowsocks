@@ -12,10 +12,17 @@ CONFIG_UDP=$CONFIG_DIR/udp.json
 CONFIG_DNS=$CONFIG_DIR/dns.json
 CONFIG_GFWLIST=$CONFIG_DIR/shadowsocks_gfwlist.conf
 CONFIG_CUSLIST=$CONFIG_DIR/shadowsocks_custom.conf
+LOCK_FILE=/tmp/shadowsocks.lock
 
 start() {
-	#service_start /usr/bin/ss-local -c $CONFIG -b 0.0.0.0 -l 1080
-	
+
+	if [ -f $LOCK_FILE ]
+	then
+		echo "shadowsocks is already running, stop it first"
+		exit 0
+	fi
+	touch $LOCK_FILE
+
 	service_start /usr/bin/ss-redir-tcp -c $CONFIG_TCP -b 0.0.0.0 -l 1081
 	sleep 1
 	service_start /usr/bin/ss-redir-udp -c $CONFIG_UDP -b 0.0.0.0 -l 1082 -U &
@@ -26,7 +33,8 @@ start() {
 	/usr/sbin/iptables -t nat -A PREROUTING -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1081
 	/usr/sbin/iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1081
 	
-	if [ ! -d /tmp/dnsmasq.d ];
+	if [ ! -d /tmp/dnsmasq.d ]
+	then
 		mkdir -p /tmp/dnsmasq.d
 		sed -i '/conf-dir=\/tmp\/dnsmasq.d/d' /etc/dnsmasq.conf
 		echo "conf-dir=/tmp/dnsmasq.d" >> /etc/dnsmasq.conf
@@ -46,8 +54,6 @@ stop() {
 	/usr/sbin/iptables -t nat -D OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1081
 	/usr/sbin/ipset -X gfwlist 
 
-	#service_stop /usr/bin/ss-local
-	
 	service_stop /usr/bin/ss-redir-tcp
 	sleep 1
 	service_stop /usr/bin/ss-redir-udp
@@ -58,4 +64,12 @@ stop() {
 	
 	/etc/init.d/dnsmasq stop
 	/etc/init.d/dnsmasq start
+	
+	rm -f $LOCK_FILE
 }
+
+restart(){
+        stop
+        start
+}
+

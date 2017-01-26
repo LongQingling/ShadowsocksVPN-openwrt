@@ -50,8 +50,8 @@ define Package/shadowsocks-libev-gfwlist/conffiles
 /etc/shadowsocks/tcp.json
 /etc/shadowsocks/udp.json
 /etc/shadowsocks/dns.json
-/etc/dnsmasq.d/shadowsocks_gfwlist.conf
-/etc/dnsmasq.d/shadowsocks_custom.conf
+/etc/shadowsocks/shadowsocks_gfwlist.conf
+/etc/shadowsocks/shadowsocks_custom.conf
 endef
 
 define Package/shadowsocks-libev-gfwlist/preinst
@@ -60,8 +60,7 @@ if [ ! -f /etc/dnsmasq.d/custom_list.conf ]; then
 	
 	echo "cache-size=5000" >> /etc/dnsmasq.conf
 	echo "min-cache-ttl=1800" >> /etc/dnsmasq.conf
-	echo "conf-dir=/etc/dnsmasq.d" >> /etc/dnsmasq.conf
-	
+		
 	echo "*/10 * * * * /etc/shadowsocks/ss-watchdog >> /var/log/shadowsocks_watchdog.log 2>&1" >> /etc/crontabs/root
 	echo "0 1 * * 0 echo \"\" > /var/log/shadowsocks_watchdog.log" >> /etc/crontabs/root
 fi
@@ -80,8 +79,6 @@ define Package/shadowsocks-libev-gfwlist/postrm
 #!/bin/sh
 sed -i '/cache-size=5000/d' /etc/dnsmasq.conf
 sed -i '/min-cache-ttl=1800/d' /etc/dnsmasq.conf
-sed -i '/conf-dir=\/etc\/dnsmasq.d/d' /etc/dnsmasq.conf
-rm -rf /etc/dnsmasq.d
 /etc/init.d/dnsmasq restart
 
 sed -i '/shadowsocks_watchdog.log/d' /etc/crontabs/root
@@ -105,10 +102,9 @@ define Package/shadowsocks-libev-gfwlist/install
 	$(INSTALL_CONF) ./files/shadowsocks.json $(1)/etc/shadowsocks/tcp.json
 	$(INSTALL_CONF) ./files/shadowsocks.json $(1)/etc/shadowsocks/udp.json
 	$(INSTALL_CONF) ./files/shadowsocks.json $(1)/etc/shadowsocks/dns.json	
-	$(INSTALL_BIN) ./files/ss-watchdog $(1)/etc/shadowsocks/ss-watchdog
-	$(INSTALL_DIR) $(1)/etc/dnsmasq.d
-	$(INSTALL_CONF) ./files/dnsmasq_list.conf $(1)/etc/dnsmasq.d/shadowsocks_gfwlist.conf
-	$(INSTALL_CONF) ./files/custom_list.conf $(1)/etc/dnsmasq.d/shadowsocks_custom.conf	
+	$(INSTALL_BIN) ./files/ss-watchdog $(1)/etc/shadowsocks/ss-watchdog	
+	$(INSTALL_CONF) ./files/dnsmasq_list.conf $(1)/etc/shadowsocks/shadowsocks_gfwlist.conf
+	$(INSTALL_CONF) ./files/custom_list.conf $(1)/etc/shadowsocks/shadowsocks_custom.conf	
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
 	$(INSTALL_CONF) ./files/shadowsocks-libev.lua $(1)/usr/lib/lua/luci/controller/shadowsocks-libev.lua
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev

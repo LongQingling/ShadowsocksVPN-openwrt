@@ -3,5 +3,6 @@
     "server_port": 23143,
     "password": "test.TEST",
     "method": "aes-256-cfb",
-    "timeout": 120
+    "timeout": 120,
+    "auth": "false"
 }

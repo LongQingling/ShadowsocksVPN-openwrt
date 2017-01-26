@@ -6,18 +6,56 @@ SERVICE_USE_PID=1
 SERVICE_WRITE_PID=1
 SERVICE_DAEMONIZE=1
 
-CONFIG=/etc/shadowsocks.json
+CONFIG_DIR=/etc/shadowsocks
+CONFIG_TCP=$CONFIG_DIR/tcp.json
+CONFIG_UDP=$CONFIG_DIR/udp.json
+CONFIG_DNS=$CONFIG_DIR/dns.json
+CONFIG_GFWLIST=$CONFIG_DIR/shadowsocks_gfwlist.conf
+CONFIG_CUSLIST=$CONFIG_DIR/shadowsocks_custom.conf
 
 start() {
 	#service_start /usr/bin/ss-local -c $CONFIG -b 0.0.0.0 -l 1080
-	service_start /usr/bin/ss-redir -c $CONFIG -b 0.0.0.0 -l 1080
+	
+	service_start /usr/bin/ss-redir -c $CONFIG_TCP -b 0.0.0.0 -l 1081
 	sleep 1
-	service_start /usr/bin/ss-tunnel -c $CONFIG -b 0.0.0.0 -l 5353 -L 8.8.8.8:53 -U
+	service_start /usr/bin/ss-redir -c $CONFIG_UDP -b 0.0.0.0 -l 1082 -U 
+	sleep 1
+	service_start /usr/bin/ss-tunnel -c $CONFIG_DNS -b 0.0.0.0 -l 5353 -L 8.8.8.8:53 -U
+	
+	/usr/sbin/ipset -N gfwlist iphash
+	/usr/sbin/iptables -t nat -A PREROUTING -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1081
+	/usr/sbin/iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1081
+	
+	if [ ! -d /tmp/dnsmasq.d ]
+	then
+		mkdir -p /tmp/dnsmasq.d
+		sed -i '/conf-dir=\/tmp\/dnsmasq.d/d' /etc/dnsmasq.conf
+		echo "conf-dir=/tmp/dnsmasq.d" >> /etc/dnsmasq.conf
+	fi
+	
+	cp -f $CONFIG_GFWLIST /tmp/dnsmasq.d
+	cp -f $CONFIG_CUSLIST /tmp/dnsmasq.d
+	
+	/etc/init.d/dnsmasq stop
+	/etc/init.d/dnsmasq start
 }
 
 stop() {
+
+		
+	/usr/sbin/iptables -t nat -D PREROUTING -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1081
+	/usr/sbin/iptables -t nat -D OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1081
+	/usr/sbin/ipset -X gfwlist 
+
 	#service_stop /usr/bin/ss-local
+	
 	service_stop /usr/bin/ss-redir
 	sleep 1
 	service_stop /usr/bin/ss-tunnel
+	
+	rm -f $CONFIG_GFWLIST 
+	rm -f $CONFIG_CUSLIST 
+	
+	/etc/init.d/dnsmasq stop
+	/etc/init.d/dnsmasq start
 }

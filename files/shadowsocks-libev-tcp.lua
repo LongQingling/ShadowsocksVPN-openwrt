@@ -1,7 +1,7 @@
 local fs = require "nixio.fs"
-local conffile = "/etc/shadowsocks.json" 
+local conffile = "/etc/shadowsocks/tcp.json" 
 
-f = SimpleForm("general", translate("Shadowsocks  - General Settings"), translate("This is the config file for Shadowsocks."))
+f = SimpleForm("TCP", translate("Shadowsocks  - TCP Settings"), translate("This is used for TCP, you can config kcptun here"))
 
 t = f:field(TextValue, "conf")
 t.rmempty = true

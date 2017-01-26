@@ -1,17 +1,17 @@
 module("luci.controller.shadowsocks-libev", package.seeall)
 
 function index()
-	if not nixio.fs.access("/etc/shadowsocks.json") then
+	if not nixio.fs.access("/etc/shadowsocks/tcp.json") then
 		return
 	end
 
 	entry({"admin", "services", "shadowsocks-libev"},
-		alias("admin", "services", "shadowsocks-libev", "general"),
+		alias("admin", "services", "shadowsocks-libev", "tcp"),
 		_("Shadowsocks"), 10)
 
-	entry({"admin", "services", "shadowsocks-libev", "general"},
-		cbi("shadowsocks-libev/shadowsocks-libev-general"),
-		_("General Settings"), 10).leaf = true
+	entry({"admin", "services", "shadowsocks-libev", "tcp"},
+		cbi("shadowsocks-libev/shadowsocks-libev-tcp"),
+		_("TCP"), 10).leaf = true
 
 	entry({"admin", "services", "shadowsocks-libev", "gfwlist"},
 		call("action_gfwlist"),

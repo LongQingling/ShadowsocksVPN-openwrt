@@ -12,7 +12,7 @@ CONFIG_UDP=$CONFIG_DIR/udp.json
 CONFIG_DNS=$CONFIG_DIR/dns.json
 CONFIG_GFWLIST=$CONFIG_DIR/shadowsocks_gfwlist.conf
 CONFIG_CUSLIST=$CONFIG_DIR/shadowsocks_custom.conf
-LOCK_FILE=/tmp/shadowsocks.lock
+LOCK_FILE=/var/run/shadowsocks.lock
 
 start() {
 
@@ -30,9 +30,20 @@ start() {
 	service_start /usr/bin/ss-tunnel -c $CONFIG_DNS -b 0.0.0.0 -l 5353 -L 8.8.8.8:53 -U
 	
 	/usr/sbin/ipset -N gfwlist iphash
+
+	## for tcp redir
 	/usr/sbin/iptables -t nat -A PREROUTING -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1081
 	/usr/sbin/iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1081
 	
+	## for udp redir
+	/usr/sbin/ip route add local default dev lo table 100
+	/usr/sbin/ip rule add fwmark 1 lookup 100
+	/usr/sbin/iptables -t mangle -A PREROUTING  -p udp -m set --match-set gfwlist dst -j TPROXY --on-port 1082 --tproxy-mark 0x01/0x01
+
+	## for dns
+	/usr/sbin/ipset -A gfwlist 8.8.8.8
+	/usr/sbin/ipset -A gfwlist 8.8.4.4
+
 	if [ ! -d /tmp/dnsmasq.d ]
 	then
 		mkdir -p /tmp/dnsmasq.d
@@ -49,7 +60,10 @@ start() {
 
 stop() {
 
-		
+	/usr/sbin/ip route del local default dev lo table 100
+	/usr/sbin/ip rule del fwmark 1 lookup 100
+	/usr/sbin/iptables -t mangle -D PREROUTING  -p udp -m set --match-set gfwlist dst -j TPROXY --on-port 1082 --tproxy-mark 0x01/0x01	
+	
 	/usr/sbin/iptables -t nat -D PREROUTING -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1081
 	/usr/sbin/iptables -t nat -D OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1081
 	/usr/sbin/ipset -X gfwlist 

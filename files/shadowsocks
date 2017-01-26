@@ -56,9 +56,22 @@ start() {
 	
 	/etc/init.d/dnsmasq stop
 	/etc/init.d/dnsmasq start
+
+	## add watch dog job
+	LOGTIME=$(date "+%Y-%m-%d %H:%M:%S")
+	echo '['$LOGTIME'] Start Watchdog ' >> /var/log/shadowsocks_watchdog.log
+
+	/usr/bin/crontab -l | { cat; echo "*/10 * * * * /etc/shadowsocks/ss-watchdog >> /var/log/shadowsocks_watchdog.log 2>&1"; echo "0 1 * * 0 echo \"\" > /var/log/shadowsocks_watchdog.log"; } | /usr/bin/crontab -
+
 }
 
 stop() {
+
+	## remove watch dog job
+	/usr/bin/crontab -l | { /bin/sed '/shadowsocks_watchdog.log/d'; } | /usr/bin/crontab -
+
+	LOGTIME=$(date "+%Y-%m-%d %H:%M:%S")
+        echo '['$LOGTIME'] Stop Watchdog ' >> /var/log/shadowsocks_watchdog.log
 
 	/usr/sbin/ip route del local default dev lo table 100
 	/usr/sbin/ip rule del fwmark 1 lookup 100

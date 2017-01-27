@@ -65,6 +65,42 @@ DNS 我喜欢走别的DNS服务器
 ![3](https://github.com/qiang-yu/ShadowsocksVPN-openwrt/blob/master/misc/3.jpg)
 
 
+ - DNS翻墙
+ 
+	需要翻墙的网站同样也需要翻墙解析DNS，这里一般和前面的UDP翻墙一样的设置就可以了。
+
+![4](https://github.com/qiang-yu/ShadowsocksVPN-openwrt/blob/master/misc/4.jpg)
+
+
+ - GFWList
+ 
+	软件缺省提供了一份翻墙网站的域名列表，基本上被墙的网站都在里面了，你直接用就可以了。
+
+![5](https://github.com/qiang-yu/ShadowsocksVPN-openwrt/blob/master/misc/5.jpg)
+
+ - 自定义域名
+ 
+	如果你要翻墙的网站不在上面的 GFWList 里面怎么办嘞？ 在这里自己添加就可以了，你要什么网站自己加上，这个网站就会被带着翻墙。打有些的把游戏服务器的域名加上，你的UDP也就可以翻墙了，游戏畅通无阻。
+
+![6](https://github.com/qiang-yu/ShadowsocksVPN-openwrt/blob/master/misc/6.jpg)
+
+
+
+ - IP直通
+ 
+	如果我要翻墙的只有一个IP没有域名怎么办嘞？（只提供了一个游戏服务器的IP地址）你在这里填上要翻墙的网站或者游戏服务器的IP地址，shadowsocksVPN 会自动对这个IP做翻墙，TCP、UDP都畅通。
+
+![7](https://github.com/qiang-yu/ShadowsocksVPN-openwrt/blob/master/misc/7.jpg)
+
+
+ - Watchdog
+ 
+	ShadowsocksVPN 默认启动了watchdog 监控，每10分钟检查一次，如果网络故障会自动重启，这里是监控日志。
+
+![8](https://github.com/qiang-yu/ShadowsocksVPN-openwrt/blob/master/misc/8.jpg)
+
+
+
 特性  
 ---
 

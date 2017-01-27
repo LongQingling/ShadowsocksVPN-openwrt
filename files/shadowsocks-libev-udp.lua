@@ -1,7 +1,7 @@
 local fs = require "nixio.fs"
 local conffile = "/etc/shadowsocks/udp.json" 
 
-f = SimpleForm("UDP", translate("Shadowsocks  - UDP Settings"), translate("This is used for UDP, you should have TProxy support"))
+f = SimpleForm("UDP翻墙", translate("Shadowsocks - UDP翻墙"), translate("配置UDP翻墙，从此游戏不再愁，需要你的翻墙服务器支持UDP转发才行"))
 
 t = f:field(TextValue, "conf")
 t.rmempty = true

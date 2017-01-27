@@ -1,7 +1,7 @@
 local fs = require "nixio.fs"
 local conffile = "/etc/shadowsocks/tcp.json" 
 
-f = SimpleForm("TCP", translate("Shadowsocks  - TCP Settings"), translate("This is used for TCP, you can config kcptun here"))
+f = SimpleForm("TCP翻墙", translate("Shadowsocks - TCP翻墙"), translate("设置TCP的翻墙，可以在这里设置走kcptun的连接加速"))
 
 t = f:field(TextValue, "conf")
 t.rmempty = true

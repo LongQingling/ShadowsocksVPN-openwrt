@@ -1,7 +1,7 @@
 local fs = require "nixio.fs"
 local conffile = "/etc/shadowsocks/ip.txt" 
 
-f = SimpleForm("IP", translate("IP地址直通"), translate("如果你不知道域名只知道IP，比如游戏服务器IP，填在这里就可以自动翻墙"))
+f = SimpleForm("IP直通", translate("IP地址直通"), translate("如果你不知道域名只知道IP，比如游戏服务器IP，填在这里就可以自动翻墙"))
 
 t = f:field(TextValue, "conf")
 t.rmempty = true

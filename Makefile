@@ -108,6 +108,7 @@ define Package/ShadowsocksVPN/install
 	$(INSTALL_CONF) ./files/shadowsocks-libev-tcp.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-tcp.lua
 	$(INSTALL_CONF) ./files/shadowsocks-libev-udp.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-udp.lua
 	$(INSTALL_CONF) ./files/shadowsocks-libev-dns.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-dns.lua
+	$(INSTALL_CONF) ./files/shadowsocks-libev-ip.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-ip.lua
 	$(INSTALL_CONF) ./files/shadowsocks-libev-custom.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-custom.lua
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/shadowsocks-libev
 	$(INSTALL_CONF) ./files/gfwlist.htm $(1)/usr/lib/lua/luci/view/shadowsocks-libev/gfwlist.htm

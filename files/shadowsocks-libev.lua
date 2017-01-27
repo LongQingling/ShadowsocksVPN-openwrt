@@ -11,19 +11,19 @@ function index()
 
 	entry({"admin", "services", "shadowsocks-libev", "tcp"},
 		cbi("shadowsocks-libev/shadowsocks-libev-tcp"),
-		_("TCP"), 10).leaf = true
+		_("TCP翻墙"), 10).leaf = true
 		
 	entry({"admin", "services", "shadowsocks-libev", "udp"},
 		cbi("shadowsocks-libev/shadowsocks-libev-udp"),
-		_("UDP"), 20).leaf = true		
+		_("UDP翻墙"), 20).leaf = true		
 		
 	entry({"admin", "services", "shadowsocks-libev", "dns"},
 		cbi("shadowsocks-libev/shadowsocks-libev-dns"),
-		_("DNS"), 30).leaf = true				
+		_("DNS翻墙"), 30).leaf = true				
 
 	entry({"admin", "services", "shadowsocks-libev", "gfwlist"},
 		call("action_gfwlist"),
-		_("GFW List"), 40).leaf = true
+		_("GFWList"), 40).leaf = true
 
 	entry({"admin", "services", "shadowsocks-libev", "custom"},
 		cbi("shadowsocks-libev/shadowsocks-libev-custom"),

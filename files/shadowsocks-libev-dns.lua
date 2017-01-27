@@ -1,7 +1,7 @@
 local fs = require "nixio.fs"
 local conffile = "/etc/shadowsocks/dns.json" 
 
-f = SimpleForm("DNS", translate("Shadowsocks  - DNS Settings"), translate("This is used for DNS lookup"))
+f = SimpleForm("DNS翻墙", translate("Shadowsocks - DNS翻墙"), translate("这里配置用于DNS翻墙的服务，服务器需要支持UDP转发才行"))
 
 t = f:field(TextValue, "conf")
 t.rmempty = true

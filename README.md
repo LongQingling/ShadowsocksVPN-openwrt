@@ -17,7 +17,7 @@ ShadowsocksVPN for OpenWrt
    
  当前版本: 2.5.6-2 采用 shadowsocks-libev 2.5.6 版本制作而成
   
- [预编译 OpenWrt Chaos Calmer 15.05 ipk 下载][R]
+ [预编译 OpenWrt Chaos Calmer 15.05.1 ipk 下载][R]
 
 
 软件截图 (OpenWrt Luci 界面) 
@@ -106,7 +106,7 @@ DNS 我喜欢走别的DNS服务器
 
 **我怎么知道我的UDP真的也成功翻墙了嘞？**
 
-玩游戏的人都知道用 [NAT测试工具][D] 可以测试UDP的连通情况，如下图所示。 你把测试的域名 stun.ekiga.net 填写到 “自定义域名” 里面，让这个域名可以翻墙，然后你用测试工具测试，看看下面 Public end 显示的 IP 地址是不是你翻墙之后的IP。 只要显示的是你翻墙之后的IP，就说明UDP成功翻墙出去了。
+玩游戏的人都知道用 [NAT测试工具][D] 可以测试UDP的连通情况，如下图所示。 你把测试的域名 **stun.ekiga.net** 填写到 “自定义域名” 里面，让这个域名可以翻墙，然后你用测试工具测试，看看下面 Public end 显示的 IP 地址是不是你翻墙之后的IP。 只要显示的是你翻墙之后的IP，就说明UDP成功翻墙出去了。
 
 ![10](https://github.com/qiang-yu/ShadowsocksVPN-openwrt/blob/master/misc/10.jpg)
 
@@ -129,14 +129,20 @@ Chrome默认开启了 QUIC 支持，访问网站优先采用 QUIC 协议，而�
  - 从 OpenWrt 的 [SDK][S] 编译
 
    ```bash
-   # 以 OpenWrt Chaos Calmer 15.05 ar71xx 平台为例
-   wget https://downloads.openwrt.org/chaos_calmer/15.05/ar71xx/generic/OpenWrt-SDK-15.05-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
-   tar xjf OpenWrt-SDK-15.05-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
-   cd OpenWrt-SDK-15.05-ar71xx-*
-   # 获取 Makefile
+   # 以 OpenWrt Chaos Calmer 15.05.1 ar71xx 平台为例
+   wget https://downloads.openwrt.org/chaos_calmer/15.05.1/ar71xx/generic/OpenWrt-SDK-15.05.1-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
+   tar xjf OpenWrt-SDK-15.05.1-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
+   cd OpenWrt-SDK-15.05.1-ar71xx-*
+   # 更新 feeds 信息
+   ./scripts/feeds update -a
+   # 安装依赖包
+   ./scripts/feeds install libpcre
+   # 获取 ShadowsocksVPN 代码，你也可以下载 release 里面的压缩包
    git clone https://github.com/qiang-yu/ShadowsocksVPN-openwrt.git  package/ShadowsocksVPN-openwrt
    # 开始编译
    make package/ShadowsocksVPN-openwrt/compile V=s
+   # 取得编译好的 ipk 包
+   cd bin/... 
    ```
 
 配置文件  

@@ -36,13 +36,32 @@ DNS 我喜欢走别的DNS服务器
 **好麻烦，我只想用一个设置就好-**----（你当然可以把3个设置成一样的，我这里只是提供给你分别设置的可能性，等你真的遇到这样的需求你就会发现这个分开独立设置非常有价值）
 
 
- - 翻墙设置
+ - OpenWrt菜单
+
+	你能看到一个菜单 ShadowsocksVPN，从这里进去就能看到软件的所有设置
+
 ![1](https://github.com/qiang-yu/ShadowsocksVPN-openwrt/blob/master/misc/1.jpg)
 
- - 翻墙设置
+
+ - TCP翻墙
+ 
+	在这里填入你的 Shadowsocks 的配置，用于 TCP 翻墙。 喜欢用 KCPTUN 的也就是在这里填入你的 KCPTUN 地址。关于 KCPTUN 的使用请自己查找 KCPTUN 官方的介绍，我们这里不讨论。
+
 ![2](https://github.com/qiang-yu/ShadowsocksVPN-openwrt/blob/master/misc/2.jpg)
 
- - 翻墙设置
+
+ - UDP翻墙
+ 
+	这里是 UDP 翻墙的 Shadowsocks 配置。 KCPTUN 只能用于加速 TCP ，不能加速 UDP，所以你不能把 KCPTUN 的地址填写在这里。 UDP翻墙 基于的是 shadowsocks-libev 的UDP转发功能实现的，所以你需要在服务器端开启UDP转发才行。 如果服务器安装的也是 shadowsocks-libev 并且开启了 -u 参数，则你自动具备UDP转发功能。
+
+	注意：如果你的服务器没有 UDP 转发功能，很不幸，你的UDP没法翻墙
+
+	UDP翻墙 有什么卵用？
+
+	大部分网游都是走的UDP协议，大量的聊天工具走的也是UDP协议，很多视频、语音聊天工具也是走UDP协议，如果你的UDP不能翻墙，这些你都用不了，你说有什么卵用嘞？
+
+	现在市面上 95% 的 shadowsocks 配置教程都是教你配置好 TCP翻墙，然后就没有然后了，根本不提UDP翻墙的问题，这些教程都是把 Shadowsocks 阉割了用，而那些配置也只是让你可以 浏览网页 完事，其它的应用压根就没法用，想玩PS4、战地之类游戏没有UDP翻墙根本不行。 
+
 ![3](https://github.com/qiang-yu/ShadowsocksVPN-openwrt/blob/master/misc/3.jpg)
 
 

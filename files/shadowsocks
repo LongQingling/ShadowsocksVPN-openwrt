@@ -10,6 +10,7 @@ CONFIG_DIR=/etc/shadowsocks
 CONFIG_TCP=$CONFIG_DIR/tcp.json
 CONFIG_UDP=$CONFIG_DIR/udp.json
 CONFIG_DNS=$CONFIG_DIR/dns.json
+CONFIG_IPFILE=$CONFIG_DIR/ip.txt
 CONFIG_GFWLIST=$CONFIG_DIR/shadowsocks_gfwlist.conf
 CONFIG_CUSLIST=$CONFIG_DIR/shadowsocks_custom.conf
 LOCK_FILE=/var/run/shadowsocks.lock
@@ -21,7 +22,8 @@ start() {
 		echo "shadowsocks is already running, stop it first"
 		exit 0
 	fi
-	touch $LOCK_FILE
+	## lock in case there is another process to run
+	touch $LOCK_FILE	|| echo "can not lock file"	; exit 0
 
 	service_start /usr/bin/ss-redir-tcp -c $CONFIG_TCP -b 0.0.0.0 -l 1081
 	sleep 1
@@ -40,9 +42,12 @@ start() {
 	/usr/sbin/ip rule add fwmark 1 lookup 100
 	/usr/sbin/iptables -t mangle -A PREROUTING  -p udp -m set --match-set gfwlist dst -j TPROXY --on-port 1082 --tproxy-mark 0x01/0x01
 
-	## for dns
-	/usr/sbin/ipset -A gfwlist 8.8.8.8
-	/usr/sbin/ipset -A gfwlist 8.8.4.4
+	## add all ip.txt to ipset 
+	while read -r line 
+	do
+		/usr/sbin/ipset -A gfwlist $line
+	done < $CONFIG_IPFILE
+	
 
 	if [ ! -d /tmp/dnsmasq.d ]
 	then

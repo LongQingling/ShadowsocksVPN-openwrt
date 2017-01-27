@@ -27,11 +27,15 @@ function index()
 
 	entry({"admin", "services", "shadowsocks-libev", "custom"},
 		cbi("shadowsocks-libev/shadowsocks-libev-custom"),
-		_("Custom List"), 50).leaf = true
+		_("自定义域名"), 50).leaf = true
+		
+	entry({"admin", "services", "shadowsocks-libev", "ip"},
+		cbi("shadowsocks-libev/shadowsocks-libev-ip"),
+		_("IP直通"), 60).leaf = true			
 
 	entry({"admin", "services", "shadowsocks-libev", "watchdog"},
 		call("action_watchdog"),
-		_("Watchdog Log"), 60).leaf = true
+		_("Watchdog Log"), 70).leaf = true
 end
 
 function action_gfwlist()

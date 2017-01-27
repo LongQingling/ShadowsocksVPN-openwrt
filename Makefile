@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowsocks-libev
 PKG_VERSION:=2.5.6
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/shadowsocks/openwrt-shadowsocks/releases/download/v$(PKG_VERSION)
@@ -50,6 +50,7 @@ define Package/ShadowsocksVPN/conffiles
 /etc/shadowsocks/tcp.json
 /etc/shadowsocks/udp.json
 /etc/shadowsocks/dns.json
+/etc/shadowsocks/ip.txt
 /etc/shadowsocks/shadowsocks_gfwlist.conf
 /etc/shadowsocks/shadowsocks_custom.conf
 endef
@@ -97,6 +98,7 @@ define Package/ShadowsocksVPN/install
 	$(INSTALL_CONF) ./files/shadowsocks.json $(1)/etc/shadowsocks/tcp.json
 	$(INSTALL_CONF) ./files/shadowsocks.json $(1)/etc/shadowsocks/udp.json
 	$(INSTALL_CONF) ./files/shadowsocks.json $(1)/etc/shadowsocks/dns.json	
+	$(INSTALL_CONF) ./files/ip.txt $(1)/etc/shadowsocks/ip.txt
 	$(INSTALL_BIN) ./files/ss-watchdog $(1)/etc/shadowsocks/ss-watchdog	
 	$(INSTALL_CONF) ./files/dnsmasq_list.conf $(1)/etc/shadowsocks/shadowsocks_gfwlist.conf
 	$(INSTALL_CONF) ./files/custom_list.conf $(1)/etc/shadowsocks/shadowsocks_custom.conf	

@@ -95,7 +95,7 @@ stop() {
 	/etc/init.d/dnsmasq stop
 	/etc/init.d/dnsmasq start
 	
-	rmdir $LOCK_FILE
+	rm -rf $LOCK_FILE
 }
 
 restart(){

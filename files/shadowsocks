@@ -17,17 +17,9 @@ LOCK_FILE=/var/run/shadowsocksvpn.lock
 
 start() {
 
-	if [ -f $LOCK_FILE ]
+	if ! mkdir $LOCK_FILE 
 	then
 		echo "shadowsocks is already running, stop it first"
-		exit 0
-	fi
-
-	## lock in case there is another process to run
-	touch $LOCK_FILE
-	if [ ! -f $LOCK_FILE ]
-	then
-		echo "can not lock file"
 		exit 0
 	fi
 
@@ -103,7 +95,7 @@ stop() {
 	/etc/init.d/dnsmasq stop
 	/etc/init.d/dnsmasq start
 	
-	rm -f $LOCK_FILE
+	rmdir $LOCK_FILE
 }
 
 restart(){

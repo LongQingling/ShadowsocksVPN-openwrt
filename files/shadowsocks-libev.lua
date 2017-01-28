@@ -17,25 +17,21 @@ function index()
 		cbi("shadowsocks-libev/shadowsocks-libev-udp"),
 		_("UDP翻墙"), 20).leaf = true		
 		
-	entry({"admin", "services", "shadowsocks-libev", "dns"},
-		cbi("shadowsocks-libev/shadowsocks-libev-dns"),
-		_("DNS翻墙"), 30).leaf = true				
-
 	entry({"admin", "services", "shadowsocks-libev", "gfwlist"},
 		call("action_gfwlist"),
-		_("GFWList"), 40).leaf = true
+		_("GFWList"), 30).leaf = true
 
 	entry({"admin", "services", "shadowsocks-libev", "custom"},
 		cbi("shadowsocks-libev/shadowsocks-libev-custom"),
-		_("自定义域名"), 50).leaf = true
+		_("自定义域名"), 40).leaf = true
 		
 	entry({"admin", "services", "shadowsocks-libev", "ip"},
 		cbi("shadowsocks-libev/shadowsocks-libev-ip"),
-		_("IP直通"), 60).leaf = true			
+		_("IP直通"), 50).leaf = true			
 
 	entry({"admin", "services", "shadowsocks-libev", "watchdog"},
 		call("action_watchdog"),
-		_("Watchdog Log"), 70).leaf = true
+		_("Watchdog Log"), 60).leaf = true
 end
 
 function action_gfwlist()

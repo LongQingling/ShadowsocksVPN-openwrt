@@ -187,7 +187,7 @@ Chrome默认开启了 QUIC 支持，访问网站优先采用 QUIC 协议，而�
    cp -f ssr-tunnel  /usr/bin/ss-tunnel
    ```
 
-你只需要替换 ShadowsocksVPN 自带的 3个文件 `/usr/bin/ss-redir-tcp`  `/usr/bin/ss-redir-udp` `/usr/bin/ss-tunnel` 然后你就可以使用 ShadowsocksR 了，当然，请注意 Luci 界面配置 TCP翻墙、UDP翻墙、DNS翻墙 的时候请使用“ShadowsocksR 格式”的配置文件。
+你只需要替换 ShadowsocksVPN 自带的 3个文件 `/usr/bin/ss-redir-tcp`  `/usr/bin/ss-redir-udp` `/usr/bin/ss-tunnel` 然后你就可以使用 ShadowsocksR 了，当然，请注意 Luci 界面配置 TCP翻墙、UDP翻墙、DNS翻墙 的时候请使用  **ShadowsocksR 格式**  的配置文件。
 
 
 联系我  

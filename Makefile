@@ -51,6 +51,15 @@ Package/libev/description = $(Package/ShadowsocksVPN/description)
 Package/pdnsd/description = $(Package/ShadowsocksVPN/description)
 
 
+define Package/ShadowsocksVPN/conffiles
+/etc/shadowsocks/tcp.json
+/etc/shadowsocks/udp.json
+/etc/shadowsocks/dns.conf
+/etc/shadowsocks/ip.txt
+/etc/shadowsocks/shadowsocks_gfwlist.conf
+/etc/shadowsocks/shadowsocks_custom.conf
+endef
+
 
 ifeq ($(BUILD_VARIANT),libev)
 	CONFIGURE_ARGS += --disable-ssp --disable-documentation --disable-assert

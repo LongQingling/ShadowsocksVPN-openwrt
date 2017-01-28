@@ -169,6 +169,26 @@ Chrome默认开启了 QUIC 支持，访问网站优先采用 QUIC 协议，而�
 自己去 恩山论坛 找，一堆一堆的，有条件的建议上 X64 软路由，性能强大用起来爽，我用的就是 X64的软路由。
 
 
+关于使用 ShadowsocksR  
+---
+
+如果你买的服务是 ShadowsocksR 带混肴的那种，不是原版的 Shadowsocks协议 ，首先你要确定你的服务是支持 UDP转发 的，如果你的服务器不支持 UDP转发，那你就没法实现 VPN一样 的功能，因为 VPN一样 的功能是要实现 TCP、UDP 两种协议都畅通。现在，假设你的 ShadowsocksR 服务器是支持UDP转发的，接下来你需要找到 [shadowsocksr-libev][2] 的编译好的文件（各大论坛自己去下载），用这个文件来替换 ShadowsocksVPN 自带的文件。
+
+
+假如你用的是 L有大雕 的 Gargoyle-1.9.1-R5-x64-Professional-Edition-squashfs 固件，那么这个固件自带有 [shadowsocksr-libev][2] 已经编译好的可执行文件，你可以用下面的方式来替换，实现 ShadowsocksVPN 使用 ShadowsocksR 带混肴的协议。
+
+   ```bash
+   # Gargoyle-1.9.1-R5-x64-Professional-Edition-squashfs 固件
+   # 自带了 ShadowsocksR-libev 的可执行文件，在 /usr/bin 目录下，有 ssr-redir, ssr-tunnel
+   # 你也可以自己去别的地方下载别人编译好的 ssr-redir, ssr-tunnel 文件
+   # 用下面的方式替换 ShadowsocksVPN 自带的文件
+   cp -f ssr-redir   /usr/bin/ss-redir-tcp
+   cp -f ssr-redir   /usr/bin/ss-redir-udp
+   cp -f ssr-tunnel  /usr/bin/ss-tunnel
+   ```
+
+你只需要替换 ShadowsocksVPN 自带的 3个文件 `/usr/bin/ss-redir-tcp`  `/usr/bin/ss-redir-udp` `/usr/bin/ss-tunnel` 然后你就可以使用 ShadowsocksR 了，当然，请注意 Luci 界面配置 TCP翻墙、UDP翻墙、DNS翻墙 的时候请使用“ShadowsocksR 格式”的配置文件。
+
 
 联系我  
 ---
@@ -184,6 +204,7 @@ Chrome默认开启了 QUIC 支持，访问网站优先采用 QUIC 协议，而�
 
 
   [1]: https://github.com/shadowsocks/shadowsocks-libev
+  [2]: https://github.com/shadowsocksr/shadowsocksr-libev
   [R]: https://github.com/qiang-yu/ShadowsocksVPN-openwrt/releases
   [S]: http://wiki.openwrt.org/doc/howto/obtain.firmware.sdk
   [D]: https://github.com/qiang-yu/ShadowsocksVPN-openwrt/raw/master/misc/NAT%E7%B1%BB%E5%9E%8B%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7.zip

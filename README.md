@@ -19,6 +19,26 @@ ShadowsocksVPN for OpenWrt
   
  [预编译 OpenWrt Chaos Calmer 15.05.1 ipk 下载][R]
 
+ 由于要实现 UDP透明转发 功能，所以要求你的 Openwrt 固件必须有几个模块，用下面的方式检查
+ 
+    ```bash
+   # 检查必须的内核模块
+   opkg list-installed | grep tproxy
+   # 输出应该显示下面的2个模块
+   iptables-mod-tproxy
+   kmod-ipt-tproxy
+   # 如果你没有这2个模块，用下面的命令安装
+   opkg update
+   opkg install iptables-mod-tproxy kmod-ipt-tproxy
+   ```
+ 
+ 如果你的固件本身不带这2个必备的模块，很不幸，你的固件无法使用 ShadowsocksVPN 。
+ 
+ **注意：**  现在很多固件自带了 Shadowsocks、ShadowsocksR 功能，请停用甚至卸载这些程序，不然可能会发生冲突。
+ 
+ 
+ 如果你使用的是 L有大雕 的 Gargoyle-1.9.1-R5-x64-Professional-Edition 固件，里面有自带的 ShadowsocksR Pro 程序，默认不启动，不会冲突，只要你别开启它就行。ShadowsocksVPN 可以直接在 L有大雕 的 R5固件 上完美使用。
+ 
 
 软件截图 (OpenWrt Luci 界面) 
 ---

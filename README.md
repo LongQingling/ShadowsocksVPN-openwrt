@@ -21,7 +21,7 @@ ShadowsocksVPN for OpenWrt
 
  由于要实现 UDP透明转发 功能，所以要求你的 Openwrt 固件必须有几个模块，用下面的方式检查
  
-    ```bash
+   ```bash
    # 检查必须的内核模块
    opkg list-installed | grep tproxy
    # 输出应该显示下面的2个模块

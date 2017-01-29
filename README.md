@@ -15,7 +15,7 @@ ShadowsocksVPN for OpenWrt
  
  本项目是 [shadowsocks-libev][1] 在 OpenWrt 上的完整移植，包括TCP、UDP协议都能完全透明翻墙，并且支持DNS防污染，整个实现了一个完整的VPN功能，可以用于替代任何现有的VPN来工作（现有的VPN技术被封杀的太厉害了，几乎不能用了）。
    
- 当前版本: 2.5.6-4 采用 shadowsocks-libev 2.5.6 版本制作而成，从 2.5.6-4 版本开始本项目同时支持 shadowsocks原版协议 和 shadowsocksR加混肴协议，请根据你的需要下载对应的版本
+ 当前版本: 2.5.6-4 采用 shadowsocks-libev 2.5.6 版本制作而成，从 2.5.6-4 版本开始本项目同时支持 **shadowsocks原版协议** 和 **shadowsocksR加混肴协议**，请根据你的需要下载对应的版本
   
  [预编译 OpenWrt Chaos Calmer 15.05.1 ipk 下载][R]
 

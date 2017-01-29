@@ -45,6 +45,8 @@ Package/ShadowsocksVPN = $(call Package/ShadowsocksVPN/Default,vpn,(vpn), +libop
 
 define Package/ShadowsocksVPN/description
 ShadowsocksVPN is a lightweight secured socks5 proxy for embedded devices and low end boxes.
+https://github.com/mengskysama/pdnsd/archive/1.2.9a.tar.gz
+https://github.com/shadowsocks/openwrt-shadowsocks/releases/download/v2.5.6/shadowsocks-libev-2.5.6.tar.gz
 endef
 
 Package/libev/description = $(Package/ShadowsocksVPN/description)
@@ -70,16 +72,12 @@ endif
 define Build/Prepare		
 	rm -rf $(MY_BUILD_DIR_PDNSD)
 	mkdir -p $(MY_BUILD_DIR_PDNSD)
-	wget -4 --no-check-certificate -O $(MY_BUILD_DIR_PDNSD)/pdnsd.tar.gz  https://github.com/mengskysama/pdnsd/archive/1.2.9a.tar.gz
-	tar zxf $(MY_BUILD_DIR_PDNSD)/pdnsd.tar.gz -C $(MY_BUILD_DIR_PDNSD)
-	mv $(MY_BUILD_DIR_PDNSD)/pdnsd-1.2.9a/*  $(MY_BUILD_DIR_PDNSD) 
-	
+	tar zxf ./code/pdnsd-1.2.9a.tar.gz -C $(MY_BUILD_DIR_PDNSD)
+		
 	rm -rf $(MY_BUILD_DIR_LIBEV)
-	mkdir -p $(MY_BUILD_DIR_LIBEV)
-	wget -4 --no-check-certificate -O $(MY_BUILD_DIR_LIBEV)/shadowsocks-libev.tar.gz  https://github.com/shadowsocks/openwrt-shadowsocks/releases/download/v2.5.6/shadowsocks-libev-2.5.6.tar.gz
-	tar zxf $(MY_BUILD_DIR_LIBEV)/shadowsocks-libev.tar.gz -C $(MY_BUILD_DIR_LIBEV)
-	mv $(MY_BUILD_DIR_LIBEV)/shadowsocks-libev-2.5.6/*  $(MY_BUILD_DIR_LIBEV) 
-	
+	mkdir -p $(MY_BUILD_DIR_LIBEV)	
+	tar zxf ./code/shadowsocks-libev-2.5.6.tar.gz -C $(MY_BUILD_DIR_LIBEV)
+		
 	rm -rf $(MY_BUILD_DIR_VPN)
 	mkdir -p $(MY_BUILD_DIR_VPN)
 	echo "install:;" > $(MY_BUILD_DIR_VPN)/Makefile

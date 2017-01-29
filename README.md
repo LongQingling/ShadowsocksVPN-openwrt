@@ -15,7 +15,7 @@ ShadowsocksVPN for OpenWrt
  
  本项目是 [shadowsocks-libev][1] 在 OpenWrt 上的完整移植，包括TCP、UDP协议都能完全透明翻墙，并且支持DNS防污染，整个实现了一个完整的VPN功能，可以用于替代任何现有的VPN来工作（现有的VPN技术被封杀的太厉害了，几乎不能用了）。
    
- 当前版本: 2.5.6-3 采用 shadowsocks-libev 2.5.6 版本制作而成
+ 当前版本: 2.5.6-4 采用 shadowsocks-libev 2.5.6 版本制作而成，从 2.5.6-4 版本开始本项目同时支持 shadowsocks原版协议 和 shadowsocksR加混肴协议，请根据你的需要下载对应的版本
   
  [预编译 OpenWrt Chaos Calmer 15.05.1 ipk 下载][R]
 
@@ -93,7 +93,7 @@ DNS 我喜欢走别的DNS服务器
  
 	需要翻墙的网站同样也需要翻墙解析DNS，这里一般和前面的UDP翻墙一样的设置就可以了。
 	
-	**注意：** 2.5.6-3 版本取消了DNS翻墙的单独设置，新版本自带 pdnsd 走TCP做DNS解析，不能单独设置。如果需要自己设置DNS的，请使用 2.5.6-2 版本。
+	**注意：** 2.5.6-3 版本之后取消了DNS翻墙的单独设置，新版本自带 pdnsd 走TCP做DNS解析，不能单独设置。如果需要自己设置DNS的，请使用 2.5.6-2 版本。
 
 ![4](https://github.com/qiang-yu/ShadowsocksVPN-openwrt/blob/master/misc/4.jpg)
 
@@ -198,24 +198,7 @@ Chrome默认开启了 QUIC 支持，访问网站优先采用 QUIC 协议，而�
 关于使用 ShadowsocksR  
 ---
 
-如果你买的服务是 ShadowsocksR 带混肴的那种，不是原版的 Shadowsocks协议 ，首先你要确定你的服务是支持 UDP转发 的，如果你的服务器不支持 UDP转发，那你就没法实现 VPN一样 的功能，因为 VPN一样 的功能是要实现 TCP、UDP 两种协议都畅通。现在，假设你的 ShadowsocksR 服务器是支持UDP转发的，接下来你需要找到 [shadowsocksr-libev][2] 的编译好的文件（各大论坛自己去下载），用这个文件来替换 ShadowsocksVPN 自带的文件。
-
-
-假如你用的是 L有大雕 的 Gargoyle-1.9.1-R5-x64-Professional-Edition-squashfs 固件，那么这个固件自带有 [shadowsocksr-libev][2] 已经编译好的可执行文件，你可以用下面的方式来替换，实现 ShadowsocksVPN 使用 ShadowsocksR 带混肴的协议。
-
-   ```bash
-   # Gargoyle-1.9.1-R5-x64-Professional-Edition-squashfs 固件
-   # 自带了 ShadowsocksR-libev 的可执行文件，在 /usr/bin 目录下，有 ssr-redir, ssr-tunnel
-   # 你也可以自己去别的地方下载别人编译好的 ssr-redir, ssr-tunnel 文件
-   # 用下面的方式替换 ShadowsocksVPN 自带的文件
-   cp -f ssr-redir   /usr/bin/ss-redir-tcp
-   cp -f ssr-redir   /usr/bin/ss-redir-udp
-   # 如果你用的是 ShadowsocksVPN-2.5.6-3 版本，到这里就为止了
-   # 如果你用的是 ShadowsocksVPN-2.5.6-2，你还需要做下面的替换
-   cp -f ssr-tunnel  /usr/bin/ss-tunnel
-   ```
-
-你只需要替换 ShadowsocksVPN 自带的 3个文件 `/usr/bin/ss-redir-tcp`  `/usr/bin/ss-redir-udp` `/usr/bin/ss-tunnel` 然后你就可以使用 ShadowsocksR 了，当然，请注意 Luci 界面配置 TCP翻墙、UDP翻墙、DNS翻墙 的时候请使用  **ShadowsocksR 格式**  的配置文件。
+从 **2.5.6-4** 版本开始起，本项目同时提供 **ShadowsocksVPN** 和 **ShadowsocksRVPN** ，使用 ShadowsocksR混肴协议的请下载 ShadowsocksRVPN 即可。
 
 
 联系我  

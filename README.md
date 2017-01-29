@@ -180,7 +180,7 @@ Chrome默认开启了 QUIC 支持，访问网站优先采用 QUIC 协议，而�
 推荐搭配  
 ---
 
-服务器使用 Debian8 x64 + shadowsocks-libev 默认开启 UDP 转发功能（你也可以用 ShadowsocksR 服务器，采用 shadowsocks原始 协议即可）
+服务器使用 Debian8 x64 + shadowsocks-libev 默认开启 UDP 转发功能（你也可以用 ShadowsocksR 服务器，下载 ShadowsocksRVPN 即可）
 
 
 客户端使用 Gargoyle石像鬼 路由器 + ShadowsocksVPN 自动透明翻墙（TCP、UDP完全翻墙）

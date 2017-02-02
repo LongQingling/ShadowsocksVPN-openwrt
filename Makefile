@@ -103,6 +103,7 @@ endef
 define Package/pdnsd/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/pdnsd $(1)/usr/bin	
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/pdnsd-ctl/pdnsd-ctl $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/pdnsd $(MY_BASE_DIR)/ss-pdnsd
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/pdnsd-ctl/pdnsd-ctl $(MY_BASE_DIR)/ss-pdnsd-ctl
 endef
@@ -123,7 +124,6 @@ endef
 
 define Package/ShadowsocksVPN/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(MY_BASE_DIR)/ss-{local,redir,tunnel} $(1)/usr/bin
 	$(INSTALL_BIN) $(MY_BASE_DIR)/ss-pdnsd $(1)/usr/bin
 	$(INSTALL_BIN) $(MY_BASE_DIR)/ss-redir $(1)/usr/bin/ss-redir-tcp
 	$(INSTALL_BIN) $(MY_BASE_DIR)/ss-redir $(1)/usr/bin/ss-redir-udp

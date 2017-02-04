@@ -4,6 +4,8 @@ gfwUrlFile=https://github.com/qiang-yu/publish-cdn/raw/master/gfwlist/gfwlist_lo
 tmpFile=/tmp/gfwlist.conf
 targetFile=/etc/shadowsocks/shadowsocks_gfwlist.conf
 
+rm ${tmpFile}
+
 wget -4 --no-check-certificate -q -O ${tmpFile} ${gfwUrlFile}
 
 ## wget fail
@@ -13,6 +15,8 @@ if [ $? -ne 0 ]; then
 fi
 
 cp -f  ${tmpFile}  ${targetFile}
+
+rm ${tmpFile}
 
 /etc/init.d/shadowsocks stop
 sleep 3

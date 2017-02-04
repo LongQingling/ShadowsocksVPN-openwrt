@@ -18,7 +18,7 @@ function index()
 		_("UDP翻墙"), 20).leaf = true		
 		
 	entry({"admin", "services", "shadowsocks-libev", "gfwlist"},
-		call("action_gfwlist"),
+		cbi("shadowsocks-libev/shadowsocks-libev-gfwlist"),
 		_("GFWList"), 30).leaf = true
 
 	entry({"admin", "services", "shadowsocks-libev", "custom"},

@@ -137,6 +137,7 @@ define Package/ShadowsocksVPN/install
 	$(INSTALL_BIN) ./files/ss-watchdog $(1)/etc/shadowsocks/ss-watchdog	
 	$(INSTALL_CONF) ./files/dnsmasq_list.conf $(1)/etc/shadowsocks/shadowsocks_gfwlist.conf
 	$(INSTALL_CONF) ./files/custom_list.conf $(1)/etc/shadowsocks/shadowsocks_custom.conf	
+	$(INSTALL_CONF) ./files/update-gfwlist $(1)/etc/shadowsocks/update-gfwlist	
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
 	$(INSTALL_CONF) ./files/shadowsocks-libev.lua $(1)/usr/lib/lua/luci/controller/shadowsocks-libev.lua
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev
@@ -164,6 +165,7 @@ define Package/ShadowsocksRVPN/install
 	$(INSTALL_BIN) ./files/ss-watchdog $(1)/etc/shadowsocks/ss-watchdog	
 	$(INSTALL_CONF) ./files/dnsmasq_list.conf $(1)/etc/shadowsocks/shadowsocks_gfwlist.conf
 	$(INSTALL_CONF) ./files/custom_list.conf $(1)/etc/shadowsocks/shadowsocks_custom.conf	
+	$(INSTALL_CONF) ./files/update-gfwlist $(1)/etc/shadowsocks/update-gfwlist	
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
 	$(INSTALL_CONF) ./files/shadowsocks-libev.lua $(1)/usr/lib/lua/luci/controller/shadowsocks-libev.lua
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+gfwUrlFile=https://github.com/qiang-yu/publish-cdn/raw/master/gfwlist/gfwlist_localdns.conf
+tmpFile=/tmp/gfwlist.conf
+targetFile=/etc/shadowsocks/shadowsocks_gfwlist.conf
+
+wget -4 --no-check-certificate -q -O ${tmpFile} ${gfwUrlFile}
+
+## wget fail
+if [ $? -ne 0 ]; then
+	echo "wget fail"
+	exit 1
+fi
+
+cp -f  ${tmpFile}  ${targetFile}
+
+/etc/init.d/shadowsocks stop
+sleep 3
+/etc/init.d/shadowsocks start

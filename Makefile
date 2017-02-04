@@ -146,6 +146,7 @@ define Package/ShadowsocksVPN/install
 	$(INSTALL_CONF) ./files/shadowsocks-libev-udp.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-udp.lua
 	$(INSTALL_CONF) ./files/shadowsocks-libev-ip.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-ip.lua
 	$(INSTALL_CONF) ./files/shadowsocks-libev-custom.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-custom.lua
+	$(INSTALL_CONF) ./files/shadowsocks-libev-gfwlist.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-gfwlist.lua
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/shadowsocks-libev
 	$(INSTALL_CONF) ./files/gfwlist.htm $(1)/usr/lib/lua/luci/view/shadowsocks-libev/gfwlist.htm
 	$(INSTALL_CONF) ./files/watchdog.htm $(1)/usr/lib/lua/luci/view/shadowsocks-libev/watchdog.htm	
@@ -174,6 +175,7 @@ define Package/ShadowsocksRVPN/install
 	$(INSTALL_CONF) ./files/shadowsocks-libev-udp.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-udp.lua
 	$(INSTALL_CONF) ./files/shadowsocks-libev-ip.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-ip.lua
 	$(INSTALL_CONF) ./files/shadowsocks-libev-custom.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-custom.lua
+	$(INSTALL_CONF) ./files/shadowsocks-libev-gfwlist.lua $(1)/usr/lib/lua/luci/model/cbi/shadowsocks-libev/shadowsocks-libev-gfwlist.lua
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/shadowsocks-libev
 	$(INSTALL_CONF) ./files/gfwlist.htm $(1)/usr/lib/lua/luci/view/shadowsocks-libev/gfwlist.htm
 	$(INSTALL_CONF) ./files/watchdog.htm $(1)/usr/lib/lua/luci/view/shadowsocks-libev/watchdog.htm	

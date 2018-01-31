@@ -14,7 +14,7 @@ CONFIG_POLIPO=$CONFIG_DIR/polipo.conf
 CONFIG_IPFILE=$CONFIG_DIR/ip.txt
 CONFIG_GFWLIST=$CONFIG_DIR/shadowsocks_gfwlist.conf
 CONFIG_CUSLIST=$CONFIG_DIR/shadowsocks_custom.conf
-LOCK_FILE=/var/run/shadowsocksvpn.lock
+LOCK_FILE=/var/run/ssvpn.lock
 
 start() {
 
@@ -78,22 +78,22 @@ start() {
 
 	## add watch dog job
 	LOGTIME=$(date "+%Y-%m-%d %H:%M:%S")
-	echo '['$LOGTIME'] Start Watchdog ' >> /var/log/shadowsocks_watchdog.log
+	echo '['$LOGTIME'] Start Watchdog ' >> /var/log/ssvpn_watchdog.log
 
 	## remove old watch dog job                                                                                                                                                              
-        /usr/bin/crontab -l | { /bin/sed '/shadowsocks_watchdog.log/d'; } | /usr/bin/crontab - 
+        /usr/bin/crontab -l | { /bin/sed '/ssvpn_watchdog.log/d'; } | /usr/bin/crontab - 
 
 	## start watchdog
-	/usr/bin/crontab -l | { cat; echo "*/10 * * * * /etc/ssvpn/ss-watchdog >> /var/log/shadowsocks_watchdog.log 2>&1"; echo "0 1 * * 0 echo \"\" > /var/log/shadowsocks_watchdog.log"; } | /usr/bin/crontab -
+	/usr/bin/crontab -l | { cat; echo "*/10 * * * * /etc/ssvpn/ss-watchdog >> /var/log/ssvpn_watchdog.log 2>&1"; echo "0 1 * * 0 echo \"\" > /var/log/ssvpn_watchdog.log"; } | /usr/bin/crontab -
 }
 
 stop() {
 
 	## remove watch dog job
-	/usr/bin/crontab -l | { /bin/sed '/shadowsocks_watchdog.log/d'; } | /usr/bin/crontab -
+	/usr/bin/crontab -l | { /bin/sed '/ssvpn_watchdog.log/d'; } | /usr/bin/crontab -
 
 	LOGTIME=$(date "+%Y-%m-%d %H:%M:%S")
-        echo '['$LOGTIME'] Stop Watchdog ' >> /var/log/shadowsocks_watchdog.log
+        echo '['$LOGTIME'] Stop Watchdog ' >> /var/log/ssvpn_watchdog.log
 
 	/usr/sbin/ip route del local default dev lo table 100
 	/usr/sbin/ip rule del fwmark 1 lookup 100

@@ -1,7 +1,7 @@
 module("luci.controller.shadowsocks-libev", package.seeall)
 
 function index()
-	if not nixio.fs.access("/etc/shadowsocks/tcp.json") then
+	if not nixio.fs.access("/etc/ssvpn/tcp.json") then
 		return
 	end
 
@@ -36,14 +36,14 @@ end
 
 function action_gfwlist()
 	local fs = require "nixio.fs"
-	local conffile = "/etc/shadowsocks/shadowsocks_gfwlist.conf" 
+	local conffile = "/etc/ssvpn/shadowsocks_gfwlist.conf" 
 	local gfwlist = fs.readfile(conffile) or ""
 	luci.template.render("shadowsocks-libev/gfwlist", {gfwlist=gfwlist})
 end
 
 function action_watchdog()
 	local fs = require "nixio.fs"
-	local conffile = "/var/log/shadowsocks_watchdog.log" 
+	local conffile = "/var/log/ssvpn_watchdog.log" 
 	local watchdog = fs.readfile(conffile) or ""
 	luci.template.render("shadowsocks-libev/watchdog", {watchdog=watchdog})
 end

@@ -1,5 +1,5 @@
 local fs = require "nixio.fs"
-local conffile = "/etc/shadowsocks/ip.txt" 
+local conffile = "/etc/ssvpn/ip.txt" 
 
 f = SimpleForm("IP直通", translate("IP地址直通"), translate("如果你不知道域名只知道IP，比如游戏服务器IP，填在这里就可以自动翻墙"))
 
@@ -14,7 +14,7 @@ function f.handle(self, state, data)
 	if state == FORM_VALID then
 		if data.conf then
 			fs.writefile(conffile, data.conf:gsub("\r\n", "\n"))
-			luci.sys.call("/etc/init.d/shadowsocks restart")
+			luci.sys.call("/etc/init.d/ssvpn restart")
 		end
 	end
 	return true

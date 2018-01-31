@@ -6,10 +6,11 @@ SERVICE_USE_PID=1
 SERVICE_WRITE_PID=1
 SERVICE_DAEMONIZE=1
 
-CONFIG_DIR=/etc/shadowsocks
+CONFIG_DIR=/etc/ssvpn
 CONFIG_TCP=$CONFIG_DIR/tcp.json
 CONFIG_UDP=$CONFIG_DIR/udp.json
 CONFIG_DNS=$CONFIG_DIR/pdnsd.conf
+CONFIG_POLIPO=$CONFIG_DIR/polipo.conf
 CONFIG_IPFILE=$CONFIG_DIR/ip.txt
 CONFIG_GFWLIST=$CONFIG_DIR/shadowsocks_gfwlist.conf
 CONFIG_CUSLIST=$CONFIG_DIR/shadowsocks_custom.conf
@@ -23,9 +24,14 @@ start() {
 		exit 0
 	fi
 
-	service_start /usr/bin/ss-local -c $CONFIG_TCP -b 0.0.0.0 -l 1080
+	## start transparent redirect
 	service_start /usr/bin/ss-redir-tcp -c $CONFIG_TCP -b 0.0.0.0 -l 1081
 	service_start /usr/bin/ss-redir-udp -c $CONFIG_UDP -b 0.0.0.0 -l 1082 -U 
+	
+	## start socks5 proxy port:1080
+	service_start /usr/bin/ss-local -c $CONFIG_TCP -b 0.0.0.0 -l 1080	
+	## start http proxy  port:1093
+	service_start /usr/bin/ss-polipo -c $CONFIG_POLIPO 
 	sleep 1
 	
 	/usr/sbin/ipset -N gfwlist iphash
@@ -78,7 +84,7 @@ start() {
         /usr/bin/crontab -l | { /bin/sed '/shadowsocks_watchdog.log/d'; } | /usr/bin/crontab - 
 
 	## start watchdog
-	/usr/bin/crontab -l | { cat; echo "*/10 * * * * /etc/shadowsocks/ss-watchdog >> /var/log/shadowsocks_watchdog.log 2>&1"; echo "0 1 * * 0 echo \"\" > /var/log/shadowsocks_watchdog.log"; } | /usr/bin/crontab -
+	/usr/bin/crontab -l | { cat; echo "*/10 * * * * /etc/ssvpn/ss-watchdog >> /var/log/shadowsocks_watchdog.log 2>&1"; echo "0 1 * * 0 echo \"\" > /var/log/shadowsocks_watchdog.log"; } | /usr/bin/crontab -
 }
 
 stop() {
@@ -101,8 +107,9 @@ stop() {
 	## /usr/sbin/iptables -t nat -D OUTPUT -d 154.96.172.127 -p tcp --dport 443 -j DNAT --to-destination 154.96.172.127:10000-20000 --random
 	## /usr/sbin/iptables -t nat -D OUTPUT -d 154.96.172.127 -p udp --dport 443 -j DNAT --to-destination 154.96.172.127:10000-20000 --random	
 
-	service_stop /usr/bin/ss-pdnsd
+	service_stop /usr/bin/ss-polipo
 	service_stop /usr/bin/ss-local
+	service_stop /usr/bin/ss-pdnsd	
 	service_stop /usr/bin/ss-redir-tcp
 	service_stop /usr/bin/ss-redir-udp
 	sleep 1

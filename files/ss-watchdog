@@ -8,8 +8,8 @@ if [ "$?" == "0" ]; then
 else
 	wget -4 --spider --quiet --tries=2 --timeout=10 www.baidu.com
 	if [ "$?" == "0" ]; then
-		echo '['$LOGTIME'] Problem decteted, restarting shadowsocks...'
-		/etc/init.d/shadowsocks restart
+		echo '['$LOGTIME'] Problem decteted, restarting ssvpn...'
+		/etc/init.d/ssvpn restart
 	else
 		echo '['$LOGTIME'] Network Problem. Do nothing.'
 	fi

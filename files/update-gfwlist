@@ -2,7 +2,7 @@
 
 gfwUrlFile=https://github.com/qiang-yu/publish-cdn/raw/master/gfwlist/gfwlist_localdns.conf
 tmpFile=/tmp/gfwlist.conf
-targetFile=/etc/shadowsocks/shadowsocks_gfwlist.conf
+targetFile=/etc/ssvpn/shadowsocks_gfwlist.conf
 
 rm ${tmpFile}
 
@@ -18,6 +18,6 @@ cp -f  ${tmpFile}  ${targetFile}
 
 rm ${tmpFile}
 
-/etc/init.d/shadowsocks stop
+/etc/init.d/ssvpn stop
 sleep 3
-/etc/init.d/shadowsocks start
+/etc/init.d/ssvpn start

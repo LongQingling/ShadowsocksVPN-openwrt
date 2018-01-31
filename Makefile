@@ -120,11 +120,14 @@ define Package/libevssr/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-redir $(1)/usr/bin/ssr-redir
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-tunnel $(1)/usr/bin/ssr-tunnel	
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-redir $(MY_BASE_DIR)/ssr-redir
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-local $(MY_BASE_DIR)/ssr-local
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-tunnel $(MY_BASE_DIR)/ssr-tunnel
 endef
 
 define Package/ShadowsocksVPN/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(MY_BASE_DIR)/ss-pdnsd $(1)/usr/bin
+	$(INSTALL_BIN) $(MY_BASE_DIR)/ss-local $(1)/usr/bin/ss-local
 	$(INSTALL_BIN) $(MY_BASE_DIR)/ss-redir $(1)/usr/bin/ss-redir-tcp
 	$(INSTALL_BIN) $(MY_BASE_DIR)/ss-redir $(1)/usr/bin/ss-redir-udp
 	$(INSTALL_DIR) $(1)/etc/init.d
@@ -155,6 +158,7 @@ endef
 define Package/ShadowsocksRVPN/install
 	$(INSTALL_DIR) $(1)/usr/bin	
 	$(INSTALL_BIN) $(MY_BASE_DIR)/ss-pdnsd $(1)/usr/bin
+	$(INSTALL_BIN) $(MY_BASE_DIR)/ssr-local $(1)/usr/bin/ss-local
 	$(INSTALL_BIN) $(MY_BASE_DIR)/ssr-redir $(1)/usr/bin/ss-redir-tcp
 	$(INSTALL_BIN) $(MY_BASE_DIR)/ssr-redir $(1)/usr/bin/ss-redir-udp
 	$(INSTALL_DIR) $(1)/etc/shadowsocks

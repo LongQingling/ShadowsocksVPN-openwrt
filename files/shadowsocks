@@ -23,9 +23,10 @@ start() {
 		exit 0
 	fi
 
+	service_start /usr/bin/ss-local -c $CONFIG_TCP -b 0.0.0.0 -l 1080
 	service_start /usr/bin/ss-redir-tcp -c $CONFIG_TCP -b 0.0.0.0 -l 1081
-	sleep 1
 	service_start /usr/bin/ss-redir-udp -c $CONFIG_UDP -b 0.0.0.0 -l 1082 -U 
+	sleep 1
 	
 	/usr/sbin/ipset -N gfwlist iphash
 	
@@ -47,6 +48,10 @@ start() {
         ## for dns lookup, pdnsd do tcp query, we need to query proxy through shadowsocks
         /usr/sbin/ipset -A gfwlist 8.8.8.8                                      
         /usr/sbin/ipset -A gfwlist 8.8.4.4 
+
+	## split to random port 
+	## /usr/sbin/iptables -t nat -A OUTPUT -d 154.96.172.127 -p tcp --dport 443 -j DNAT --to-destination 154.96.172.127:10000-20000 --random
+	## /usr/sbin/iptables -t nat -A OUTPUT -d 154.96.172.127 -p udp --dport 443 -j DNAT --to-destination 154.96.172.127:10000-20000 --random
 
 	## start pdnsd for dns query
 	service_start /usr/bin/ss-pdnsd -c $CONFIG_DNS
@@ -92,11 +97,15 @@ stop() {
 	/usr/sbin/iptables -t nat -D OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1081
 	/usr/sbin/ipset -X gfwlist 
 
+	## split to random port 
+	## /usr/sbin/iptables -t nat -D OUTPUT -d 154.96.172.127 -p tcp --dport 443 -j DNAT --to-destination 154.96.172.127:10000-20000 --random
+	## /usr/sbin/iptables -t nat -D OUTPUT -d 154.96.172.127 -p udp --dport 443 -j DNAT --to-destination 154.96.172.127:10000-20000 --random	
+
+	service_stop /usr/bin/ss-pdnsd
+	service_stop /usr/bin/ss-local
 	service_stop /usr/bin/ss-redir-tcp
-	sleep 1
 	service_stop /usr/bin/ss-redir-udp
 	sleep 1
-	service_stop /usr/bin/ss-pdnsd
 	
 	rm -f /tmp/dnsmasq.d/shadow*  
 	

@@ -30,7 +30,7 @@ start() {
 	
 	## start socks5 proxy port:1080
 	service_start /usr/bin/ss-local -c $CONFIG_TCP -u -b 0.0.0.0 -l 1080	
-	## start http proxy  port:1093
+	## start http proxy  port:1083
 	service_start /usr/bin/ss-polipo -c $CONFIG_POLIPO 
 	sleep 1
 	

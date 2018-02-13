@@ -29,7 +29,7 @@ start() {
 	service_start /usr/bin/ss-redir-udp -c $CONFIG_UDP -b 0.0.0.0 -l 1082 -U 
 	
 	## start socks5 proxy port:1080
-	service_start /usr/bin/ss-local -c $CONFIG_TCP -b 0.0.0.0 -l 1080	
+	service_start /usr/bin/ss-local -c $CONFIG_TCP -u -b 0.0.0.0 -l 1080	
 	## start http proxy  port:1093
 	service_start /usr/bin/ss-polipo -c $CONFIG_POLIPO 
 	sleep 1

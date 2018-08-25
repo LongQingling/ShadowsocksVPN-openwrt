@@ -23,7 +23,7 @@ start() {
 	fi
 
 	## start transparent redirect
-	service_start /usr/bin/v2ray -c $CONFIG_V2RAY 
+	service_start /usr/bin/v2ray -config $CONFIG_V2RAY 
 		
 	sleep 1
 	

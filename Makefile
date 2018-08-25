@@ -150,7 +150,9 @@ define Package/ShadowsocksVPN/install
 	$(INSTALL_BIN) $(MY_BASE_DIR)/ss-redir $(1)/usr/bin/ss-redir-udp
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/ssvpn $(1)/etc/init.d/ssvpn
+	$(INSTALL_BIN) ./files/ssvpn $(1)/etc/init.d/v2rayvpn
 	$(INSTALL_DIR) $(1)/etc/ssvpn
+	$(INSTALL_CONF) ./files/shadowsocks.json $(1)/etc/ssvpn/v2ray.json
 	$(INSTALL_CONF) ./files/shadowsocks.json $(1)/etc/ssvpn/tcp.json
 	$(INSTALL_CONF) ./files/shadowsocks.json $(1)/etc/ssvpn/udp.json
 	$(INSTALL_CONF) ./files/pdnsd.conf $(1)/etc/ssvpn/pdnsd.conf	
@@ -182,10 +184,12 @@ define Package/ShadowsocksRVPN/install
 	$(INSTALL_BIN) $(MY_BASE_DIR)/ssr-redir $(1)/usr/bin/ss-redir-tcp
 	$(INSTALL_BIN) $(MY_BASE_DIR)/ssr-redir $(1)/usr/bin/ss-redir-udp
 	$(INSTALL_DIR) $(1)/etc/ssvpn
+	$(INSTALL_CONF) ./files/shadowsocks.json $(1)/etc/ssvpn/v2ray.json
 	$(INSTALL_CONF) ./files/shadowsocksr.json $(1)/etc/ssvpn/tcp.json
 	$(INSTALL_CONF) ./files/shadowsocksr.json $(1)/etc/ssvpn/udp.json	
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/ssvpn $(1)/etc/init.d/ssvpn
+	$(INSTALL_BIN) ./files/ssvpn $(1)/etc/init.d/v2rayvpn
 	$(INSTALL_CONF) ./files/pdnsd.conf $(1)/etc/ssvpn/pdnsd.conf	
 	$(INSTALL_CONF) ./files/polipo.conf $(1)/etc/ssvpn/polipo.conf	
 	$(INSTALL_CONF) ./files/ip.txt $(1)/etc/ssvpn/ip.txt
